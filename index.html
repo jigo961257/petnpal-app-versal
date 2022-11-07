@@ -1,0 +1,88 @@
+<html>
+
+<head>
+    <title>Most Fun</title>
+</head>
+
+<body>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" id="myFiles" />
+        <button>submit</button>
+
+    </form>
+    <!-- <form action="http://localhost:3500/resdownload" method="get" style="display: none;" id="dow_form"> -->
+        <form style="display: none;" id="dow_form">
+        <button type="submit">Download Single File</button>
+    </form>
+
+
+    <h2></h2>
+    <script>
+        const form = document.getElementById("uploadForm");
+        const form_down = document.getElementById("dow_form");
+        const h2 = document.querySelector("h2")
+
+        const sendFile = async () => {
+            const myFile = document.getElementById("myFiles").files
+
+            const formdata = new FormData()
+
+            Object.keys(myFile).forEach(key => {
+                formdata.append(myFile.item(key).name, myFile.item(key))
+            })
+
+            const response = await fetch("http://localhost:3500/upload", {
+                method: "POST",
+                body: formdata,
+            }).then(async (ans) => {
+                console.log(ans);
+                const result = await ans.json();
+                console.log(result);
+                
+                h2.textContent = result?.message
+
+                if (result.download) {
+                    form_down.setAttribute("style", "display: block;")
+                } else {
+                    form_down.setAttribute("style", "display: none")
+                }
+            })
+
+            // const json = await response.json();
+
+            // const h2 = document.querySelector("h2")
+            // h2.textContent = json?.message
+
+            // form_down.setAttribute("style='display: none;'");
+            // if(json?.dowload){
+            //     alert("done")
+            // }
+
+            // console.log(json);
+        }
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault()
+            sendFile()
+        })
+
+        const dowload = async () => {
+            const response = await fetch("http://localhost:3500/resdownload", { method: "GET" })
+            const json = await response.json();
+            console.log(json);
+        }
+
+        form_down.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            form_down.setAttribute("action", "http://localhost:3500/resdownload");
+            form_down.submit();
+            // alert("file is download! and try other file");
+            form.reset()
+            h2.textContent = "file donlowad start soon.."
+        })
+
+
+    </script>
+</body>
+
+</html>
