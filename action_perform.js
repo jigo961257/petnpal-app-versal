@@ -58,7 +58,7 @@ async function call_forPerfomr_task(filename) {
 
         try {
             const broweser = await puppeteer.launch({
-                headless: true,
+                headless: false,
                 // executablePath: "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
 
             });
