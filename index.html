@@ -31,7 +31,7 @@
                 formdata.append(myFile.item(key).name, myFile.item(key))
             })
 
-            const response = await fetch("http://localhost:3500/upload", {
+            const response = await fetch("https://petnpal-app-versal.vercel.app/upload", {
                 method: "POST",
                 body: formdata,
             }).then(async (ans) => {
@@ -67,14 +67,14 @@
         })
 
         const dowload = async () => {
-            const response = await fetch("http://localhost:3500/resdownload", { method: "GET" })
+            const response = await fetch("https://petnpal-app-versal.vercel.app//resdownload", { method: "GET" })
             const json = await response.json();
             console.log(json);
         }
 
         form_down.addEventListener("submit", async (e) => {
             e.preventDefault();
-            form_down.setAttribute("action", "http://localhost:3500/resdownload");
+            form_down.setAttribute("action", "https://petnpal-app-versal.vercel.app//resdownload");
             form_down.submit();
             // alert("file is download! and try other file");
             form.reset()
